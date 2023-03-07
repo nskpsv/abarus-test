@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Main />}>
-          <Route path='posts/:page' element={<PostsTable />} />
+          <Route index element={<PostsTable />} />
         </Route>
       </Routes>
     </div>

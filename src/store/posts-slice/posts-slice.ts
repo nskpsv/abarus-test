@@ -29,6 +29,7 @@ const postsSlice = createSlice({
     },
     setCurrentPage: (state, { payload }: PayloadAction<number>) => {
       state.currentPage = payload;
+      
     },
     setSearch: (state, { payload }: PayloadAction<string>) => {
       state.filters.search = payload;

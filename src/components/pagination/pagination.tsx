@@ -1,5 +1,5 @@
 import styles from './pagination.module.css';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '../../hooks/store';
 import {
   selectAllPosts,
   selectCurrentPage,
@@ -18,12 +18,19 @@ const Pagination = () => {
   }
 
   return (
-    <div>
-      <span>Назад</span>
-      {pages.map((page) => (
-        <span className={`${styles.page} ${currentPage === page ? styles.pageActive : null}`} key={page}>{page}</span>
-      ))}
-      <span>Далее</span>
+    <div className={styles.pagination}>
+      <span className={styles.button}>Назад</span>
+      <div className={styles.pages}>
+        {pages.map((page) => (
+          <span
+            className={`${styles.page} ${currentPage === page ? styles.activePage : null}`}
+            key={page}
+          >
+            {page}
+          </span>
+        ))}
+      </div>
+      <span className={styles.button}>Далее</span>
     </div>
   );
 };

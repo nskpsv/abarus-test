@@ -1,0 +1,42 @@
+.table {
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+#col1 {
+  width: 110px;
+}
+
+#col2 {
+  width: 529px;
+
+}
+
+#col3 {
+  width: 432px;
+}
+
+.tableHeader th {
+  background-color: #474955;
+  height: 54px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 137.69%;
+}
+
+.tableBody tr td {
+    border: 1px solid #E3E6EC;
+}
+
+.tableBody tr td:first-child {
+    text-align: center;
+}
+
+.tableBody tr td:nth-child(2n) {
+    padding-left: 8px;
+}
+
+.tableBody tr td:nth-child(3n) {
+    padding: 15px 11px;
+}

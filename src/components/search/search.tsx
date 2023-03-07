@@ -1,22 +1,41 @@
+import styles from './search.module.css';
+import icon from './assets/loupe.svg';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../store/hooks';
-import { setSearch } from '../../store/posts-slice/posts-slice'; 
+import { useSearchParams } from 'react-router-dom';
+import { useDebounce } from '../../hooks/debounce';
 
 const Search = () => {
-  const [value, setValue] = useState('');
-  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState(searchParams.get('search') ?? '');
+  const debounced = useDebounce(value);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      dispatch(setSearch(value));
-    }, 200);
+    if (debounced !== '') {
+      console.log(debounced);
 
-    return () => clearTimeout(handler);
-  });
+      setSearchParams((prev) => {
+        prev.set('search', debounced);
+        return prev;
+      });
+    } else {
+      setSearchParams((prev) => {
+        prev.delete('search');
+        return prev;
+      });
+    }
+  }, [debounced]);
 
   return (
-    <div>
-      <input value={value} onChange={(e) => setValue(e.target.value)} />
+    <div className={styles.search}>
+      <input
+        className={styles.input}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Поиск"
+      />
+      <div className={styles.searchButton}>
+        <img className={styles.searchButtonIcon} src={icon} />
+      </div>
     </div>
   );
 };
