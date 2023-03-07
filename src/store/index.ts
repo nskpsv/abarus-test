@@ -7,7 +7,7 @@ const store = configureStore({
     [api.reducerPath]: api.reducer,
     posts: postsReducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

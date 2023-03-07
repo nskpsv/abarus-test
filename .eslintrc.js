@@ -16,5 +16,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
+    "@typescript-eslint/no-confusing-void-expression": "off",
+    "@typescript-eslint/restrict-template-expressions": "off"
   },
 };
