@@ -1,36 +1,23 @@
 import styles from './search.module.css';
 import icon from './assets/loupe.svg';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { useDebounce } from '../../hooks/debounce';
+import { ISearchProps } from './search.types';
 
-const Search = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [value, setValue] = useState(searchParams.get('search') ?? '');
-  const debounced = useDebounce(value);
+const Search: React.FC<ISearchProps> = ({ onChange, initValue = '', throttle = 300 }) => {
+  const [input, setInput] = useState(initValue);
+  const debounced = useDebounce(input, throttle);
 
   useEffect(() => {
-    if (debounced !== '') {
-      console.log(debounced);
-
-      setSearchParams((prev) => {
-        prev.set('search', debounced);
-        return prev;
-      });
-    } else {
-      setSearchParams((prev) => {
-        prev.delete('search');
-        return prev;
-      });
-    }
+    onChange(debounced);
   }, [debounced]);
 
   return (
     <div className={styles.search}>
       <input
         className={styles.input}
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         placeholder="Поиск"
       />
       <div className={styles.searchButton}>

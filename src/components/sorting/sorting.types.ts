@@ -1,6 +1,11 @@
-interface SearchProps {
+declare type SortingType = 'ascending' | 'descending';
+
+interface ISortingProps {
   title: string;
-  filterName: string;
+  filter: string;
+  type: SortingType;
+  isActive: boolean;
+  onClick: (filter: string, type: SortingType) => void;
 }
 
-export type { SearchProps };
+export type { ISortingProps, SortingType };

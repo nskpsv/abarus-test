@@ -1,16 +1,9 @@
 interface IPostsSliceState {
-  currentPage: number;
-  currentPostsList: IPost[];
   postsPerPage: number;
   posts: IPost[];
-  filters: {
-    search: string;
-    sort: {
-      id: 'ascending' | 'descending';
-      title: 'ascending' | 'descending';
-      body: 'ascending' | 'descending';
-    };
-  };
+  preparedPosts: IPost[];
+  isFetching: boolean;
+  error: string;
 }
 
 interface IPost {

@@ -1,42 +1,27 @@
 import styles from './sorting.module.css';
-import { useSearchParams } from 'react-router-dom';
-import { SearchProps } from './sorting.types';
-import { useEffect, useState } from 'react';
+import { SortingType, ISortingProps } from './sorting.types';
 
-const Sorting: React.FC<SearchProps> = ({ title, filterName }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [descending, setDescending] = useState(searchParams.get('sort') === filterName);
-
+const Sorting: React.FC<ISortingProps> = ({ title, filter, onClick, type, isActive }) => {
   const clickHandler = () => {
-    if (descending) {
-      setSearchParams((params) => {
-        params.delete('sort');
-        setDescending((prev) => !prev);
+    const toggleType = (type: SortingType): SortingType =>
+      type === 'ascending' ? 'descending' : 'ascending';
 
-        return params;
-      });
-    } else {
-      setSearchParams((params) => {
-        params.set('sort', filterName);
-        setDescending((prev) => !prev);
+    const typeArg: SortingType = isActive ? toggleType(type) : 'ascending';
 
-        return params;
-      });
-    }
+    onClick(filter, typeArg);
   };
 
-  useEffect(() => {
-    if (searchParams.get('sort') !== filterName) {
-      setDescending(false);
-    }
-  }, [searchParams]);
-
-  return (
+  return isActive ? (
     <div className={styles.sorting} onClick={clickHandler}>
       <span className={styles.title}>{title}</span>
-      <div
-        className={`${styles.indicator} ${descending ? styles.indicatorDown : styles.indicatorUp}`}
-      ></div>
+      <div className={styles.indicator}>
+        <div className={`${styles.pointer} ${type === 'descending' && styles.pointerDown}`}></div>
+      </div>
+    </div>
+  ) : (
+    <div className={styles.sorting} onClick={clickHandler}>
+      <span className={styles.title}>{title}</span>
+      <div className={styles.indicatorHidden}></div>
     </div>
   );
 };

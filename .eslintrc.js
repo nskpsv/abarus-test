@@ -18,6 +18,8 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': 'off',
     '@typescript-eslint/no-confusing-void-expression': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/no-unused-vars': 'warn',
   },
 };

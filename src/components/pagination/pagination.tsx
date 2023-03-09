@@ -1,36 +1,41 @@
 import styles from './pagination.module.css';
-import { useAppSelector } from '../../hooks/store';
-import {
-  selectAllPosts,
-  selectCurrentPage,
-  selectPostsPerPage,
-} from '../../store/posts-slice/posts-slice';
+import { IPaginationProps } from './pagination.types';
 
-const Pagination = () => {
-  const quantity = useAppSelector(selectPostsPerPage);
-  const total = useAppSelector(selectAllPosts).length;
-  const currentPage = useAppSelector(selectCurrentPage);
+const Pagination: React.FC<IPaginationProps> = ({ onClick, total, currentPage = 1 }) => {
   const pages: number[] = [];
   let page = 1;
 
-  while (page <= Math.ceil(total / quantity)) {
+  while (page <= total) {
     pages.push(page++);
   }
 
   return (
     <div className={styles.pagination}>
-      <span className={styles.button}>Назад</span>
+      <button
+        className={styles.button}
+        onClick={() => onClick(currentPage - 1)}
+        disabled={currentPage === 1}
+      >
+        Назад
+      </button>
       <div className={styles.pages}>
         {pages.map((page) => (
           <span
             className={`${styles.page} ${currentPage === page ? styles.activePage : null}`}
+            onClick={() => onClick(page)}
             key={page}
           >
             {page}
           </span>
         ))}
       </div>
-      <span className={styles.button}>Далее</span>
+      <button
+        className={styles.button}
+        onClick={() => onClick(currentPage + 1)}
+        disabled={currentPage === total}
+      >
+        Далее
+      </button>
     </div>
   );
 };
