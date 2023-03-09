@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/abarus/static/css/main.92924eb8.css",
+    "main.js": "/abarus/static/js/main.f3b113f8.js",
+    "index.html": "/abarus/index.html",
+    "static/media/loupe.svg": "/abarus/static/media/loupe.42a69f6c4dc27bbf7c00efe96314acef.svg",
+    "main.92924eb8.css.map": "/abarus/static/css/main.92924eb8.css.map",
+    "main.f3b113f8.js.map": "/abarus/static/js/main.f3b113f8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92924eb8.css",
+    "static/js/main.f3b113f8.js"
+  ]
+}
