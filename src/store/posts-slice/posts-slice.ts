@@ -2,6 +2,8 @@ import { IPost, IPostsSliceState } from './posts-slice.types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
 import { getPosts } from './posts-thunk';
+import { search, sortList } from '../../pages/index/index.service';
+import { IFiltersSet } from '../../pages/index/index.types';
 
 const initialState: IPostsSliceState = {
   postsPerPage: 10,
@@ -15,8 +17,10 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    setPreparedPosts: (state, { payload }: PayloadAction<IPost[]>) => {
-      state.preparedPosts = payload;
+    setPreparedPosts: (state, { payload }: PayloadAction<IFiltersSet>) => {
+      let filtredList = search(payload.search, state.posts);
+      filtredList = sortList(payload.sort.filter, payload.sort.type, filtredList);
+      state.preparedPosts = filtredList;
     },
   },
   extraReducers: (builder) => {
@@ -31,7 +35,7 @@ const postsSlice = createSlice({
 
     builder.addCase(getPosts.rejected, (state, { payload }: PayloadAction<string | undefined>) => {
       state.error = payload ?? '';
-      state. isFetching = false;
+      state.isFetching = false;
     });
   },
 });

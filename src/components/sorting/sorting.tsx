@@ -2,7 +2,7 @@ import styles from './sorting.module.css';
 import { SortingType, ISortingProps } from './sorting.types';
 
 const Sorting: React.FC<ISortingProps> = ({ title, filter, onClick, type, isActive }) => {
-  const clickHandler = () => {
+  const handleClick = () => {
     const toggleType = (type: SortingType): SortingType =>
       type === 'ascending' ? 'descending' : 'ascending';
 
@@ -11,17 +11,16 @@ const Sorting: React.FC<ISortingProps> = ({ title, filter, onClick, type, isActi
     onClick(filter, typeArg);
   };
 
-  return isActive ? (
-    <div className={styles.sorting} onClick={clickHandler}>
+  return (
+    <div className={styles.sorting} onClick={handleClick}>
       <span className={styles.title}>{title}</span>
-      <div className={styles.indicator}>
-        <div className={`${styles.pointer} ${type === 'descending' && styles.pointerDown}`}></div>
-      </div>
-    </div>
-  ) : (
-    <div className={styles.sorting} onClick={clickHandler}>
-      <span className={styles.title}>{title}</span>
-      <div className={styles.indicatorHidden}></div>
+      {isActive ? (
+        <div className={styles.indicator}>
+          <div className={`${styles.pointer} ${type === 'descending' && styles.pointerDown}`}></div>
+        </div>
+      ) : (
+        <div className={styles.indicatorHidden}></div>
+      )}
     </div>
   );
 };

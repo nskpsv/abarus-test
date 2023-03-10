@@ -7,7 +7,7 @@ import { SortingType } from '../../components/sorting/sorting.types';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { selectPostsState, setPreparedPosts } from '../../store/posts-slice/posts-slice';
 import { getPosts } from '../../store/posts-slice/posts-thunk';
-import { getSearchParams, search, sortList } from './index.service';
+import { getSearchParams } from './index.service';
 import { IFiltersSet } from './index.types';
 
 const Index = () => {
@@ -19,68 +19,40 @@ const Index = () => {
     getSearchParams(Array.from(searchParams.entries())),
   );
 
-  const changePageHandler = (page: number) => {
-    setFilters((prev) => ({
-      ...prev,
-      page,
-    }));
+  const handleChangePage = (page: number) => {
     setSearchParams((params) => {
       params.set('page', page.toString());
       return params;
     });
   };
 
-  const sortingHandler = (filter: string, type: SortingType) => {
+  const handleSorting = (filter: string, type: SortingType) => {
     if (filter === 'id' && type === 'ascending') {
       setSearchParams((params) => {
         params.delete('sort');
         return params;
       });
-
-      setFilters((prev) => ({
-        ...prev,
-        sort: {
-          filter,
-          type,
-        },
-      }));
     } else {
       setSearchParams((params) => {
         params.set('sort', `${filter}_${type}`);
         return params;
       });
-
-      setFilters((prev) => ({
-        ...prev,
-        sort: {
-          filter,
-          type,
-        },
-      }));
     }
   };
 
-  const searchHandler = (value: string) => {
+  const handleSearch = (value: string) => {
     if (value !== '') {
       setSearchParams((params) => {
         params.set('search', value);
+        params.set('page', '1');
         return params;
       });
-
-      setFilters((prev) => ({
-        ...prev,
-        search: value,
-      }));
     } else {
       setSearchParams((params) => {
         params.delete('search');
+        params.set('page', '1');
         return params;
       });
-
-      setFilters((prev) => ({
-        ...prev,
-        search: value,
-      }));
     }
   };
 
@@ -89,10 +61,12 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    let filtredList = search(filters.search, posts);
-    filtredList = sortList(filters.sort.filter, filters.sort.type, filtredList);
-    dispatch(setPreparedPosts(filtredList));
-  }, [filters]);
+    dispatch(setPreparedPosts(filters));
+  }, [filters, posts]);
+
+  useEffect(() => {    
+    setFilters(getSearchParams(Array.from(searchParams.entries())));
+  }, [searchParams]);
 
   if (isFetching) {
     return <h1>Loading...</h1>;
@@ -107,19 +81,19 @@ const Index = () => {
     pagination: {
       currentPage: filters.page,
       postsPerPage,
-      onPageChange: changePageHandler,
+      onPageChange: handleChangePage,
     },
     sorting: {
       filter: filters.sort?.filter === undefined ? 'id' : filters.sort.filter,
       type: filters.sort?.type === undefined ? 'ascending' : filters.sort.type,
-      onSorting: sortingHandler,
+      onSorting: handleSorting,
     },
   };
 
   return (
     <div>
       <div>
-        <Search onChange={searchHandler} initValue={filters.search} />
+        <Search onChange={handleSearch} initValue={filters.search} />
       </div>
       {posts === undefined ? <h1>Нет постов</h1> : <PostsTable {...tableProps} />}
     </div>

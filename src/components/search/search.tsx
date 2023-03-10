@@ -2,7 +2,12 @@ import styles from './search.module.css';
 import icon from './assets/loupe.svg';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '../../hooks/debounce';
-import { ISearchProps } from './search.types';
+
+type ISearchProps = {
+  initValue: string;
+  throttle?: number;
+  onChange: (value: string) => void;
+};
 
 const Search: React.FC<ISearchProps> = ({ onChange, initValue = '', throttle = 300 }) => {
   const [input, setInput] = useState(initValue);

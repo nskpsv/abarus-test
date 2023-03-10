@@ -55,11 +55,13 @@ const PostsTable: React.FC<IPostsTableProps> = ({ posts, pagination, sorting }) 
           ))}
         </tbody>
       </table>
+      {(Math.ceil(posts.length / pagination.postsPerPage) > 1) &&
       <Pagination
         currentPage={pagination.currentPage}
         total={Math.ceil(posts.length / pagination.postsPerPage)}
         onClick={pagination.onPageChange}
       />
+}
     </div>
   );
 };

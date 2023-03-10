@@ -1,13 +1,13 @@
 import styles from './pagination.module.css';
-import { IPaginationProps } from './pagination.types';
 
-const Pagination: React.FC<IPaginationProps> = ({ onClick, total, currentPage = 1 }) => {
-  const pages: number[] = [];
-  let page = 1;
+type IPaginationProps = {
+  currentPage?: number;
+  total: number;
+  onClick: (nextPage: number) => void;
+};
 
-  while (page <= total) {
-    pages.push(page++);
-  }
+const Pagination: React.FC<IPaginationProps> = ({ onClick, total, currentPage = 1 }) => {  
+  const pages = new Array(total).fill('');
 
   return (
     <div className={styles.pagination}>
@@ -19,13 +19,13 @@ const Pagination: React.FC<IPaginationProps> = ({ onClick, total, currentPage = 
         Назад
       </button>
       <div className={styles.pages}>
-        {pages.map((page) => (
+        {pages.map((_, page) => (
           <span
-            className={`${styles.page} ${currentPage === page ? styles.activePage : null}`}
-            onClick={() => onClick(page)}
+            className={`${styles.page} ${currentPage === page + 1 ? styles.activePage : null}`}
+            onClick={() => onClick(page + 1)}
             key={page}
           >
-            {page}
+            {page + 1}
           </span>
         ))}
       </div>
